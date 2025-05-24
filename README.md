@@ -63,7 +63,7 @@ Represents a gift from a company to a developer.
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/y/freebie-tracker.git
+git clone git@github.com:Timothychemweno254/phase-3-week-3-code-challenge.git
 cd freebie-tracker
 cd app
 
