@@ -69,9 +69,9 @@ cd app
 
 now run these commands 
 
-pip install sqlalchemy
+pipenv install sqlalchemy
 
-python app.py
+python main.py
 
 Created by [Timothy Kiprop]
 GitHub • tchemweno18@gmail.com
