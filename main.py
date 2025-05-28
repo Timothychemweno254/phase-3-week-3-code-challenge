@@ -2,15 +2,14 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base, Dev, Company, Freebie
 
-# Sqlite connection
+# Database setup
 engine = create_engine('sqlite:///freebies.db', echo=False)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Create tables if not exist
 Base.metadata.create_all(engine)
 
-# ======== Developer management ========
+# ===== Developer Operations =====
 def create_dev():
     name = input("Enter developer name: ").strip()
     if not name:
@@ -46,7 +45,7 @@ def delete_dev():
     session.commit()
     print(f"Developer ID {dev_id} deleted.")
 
-# ======== Company  ========
+# ===== Company Operations =====
 def create_company():
     name = input("Enter company name: ")
     if not name:
@@ -73,7 +72,7 @@ def view_companies():
     for c in companies:
         print(f"ID: {c.id}, Name: {c.name}, Founded: {c.founding_year}, Total freebies value: {c.total_value_of_freebies(session)}")
 
-# ======== Freebie  ========
+# ===== Freebie Operations =====
 def create_freebie():
     item_name = input("Enter freebie item name: ")
     if not item_name:
@@ -118,8 +117,7 @@ def create_freebie():
         print("Company not found.")
         return
 
-    existing = session.query(Freebie).filter_by(item_name=item_name, dev_id=dev_id, company_id=company_id).first()
-    if existing:
+    if session.query(Freebie).filter_by(item_name=item_name, dev_id=dev.id, company_id=company.id).first():
         print("This freebie already exists for the developer and company.")
         return
 
@@ -136,7 +134,7 @@ def view_freebies():
     for f in freebies:
         print(f"ID: {f.id}, Item: {f.item_name}, Value: {f.value}, Developer: {f.dev.name}, Company: {f.company.name}")
 
-# ======== Manager ========
+# ===== Manager =====
 def main():
     while True:
         print("\n=== Freebie Tracker Menu ===")
@@ -145,7 +143,7 @@ def main():
         print("3. Manage Freebies")
         print("4. Exit")
 
-        main_choice = input("Enter your choice : ")
+        main_choice = input("Enter your choice: ")
 
         if main_choice == '1':
             while True:
@@ -207,4 +205,5 @@ def main():
         else:
             print("Invalid option, try again.")
 
-main()
+if __name__ == '__main__':
+    main()
